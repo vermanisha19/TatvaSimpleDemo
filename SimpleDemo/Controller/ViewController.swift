@@ -7,92 +7,73 @@
 
 import UIKit
 
-class ViewController: UIViewController, UpdateViewDelegates {
+class ViewController: UIViewController {
     
-    @IBOutlet weak var studentTableView: UITableView!
-    
-    var selectedIndex : IndexPath!
-    var studentInfo = [[StudentModel]]()
-    
+    @IBOutlet private weak var studentTableView: UITableView!
+    private var selectedIndex: IndexPath!
+    private var studentDetails: [[StudentData]] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         studentTableView.delegate = self
         studentTableView.dataSource = self
         
-        StudentViewModel.shared.getStudentDetails { studentArray in
-            
-            for value in TypeEnum.allCases {
-                
-                let student = studentArray.filter { $0.studentBranch == value.rawValue
-                }
-                self.studentInfo.append(student)
+        let studentArray = StudentViewModel.shared.studentDetails()
+        for value in TypeEnum.allCases {
+            let students = studentArray.filter { $0.studentBranch == value.rawValue
             }
+            studentDetails.append(students)
         }
-        
     }
-    
-    func changeNameOfStudent(name: String) {
-        
-        studentInfo[selectedIndex.section][selectedIndex.row].studentName = name
-        studentTableView.reloadData()
-    }
-    
 }
 
-//MARK: - Table View Methods
+//MARK: - UpdateViewDelegates
 
-extension ViewController : UITableViewDelegate , UITableViewDataSource {
+extension ViewController: UpdateViewDelegates {
     
+    func changeNameOfStudent(_ name: String) {
+        studentDetails[selectedIndex.section][selectedIndex.row].studentName = name
+        DispatchQueue.main.async {
+            self.studentTableView.reloadRows(at: [self.selectedIndex], with: .none)
+        }
+    }
+}
+
+//MARK: - Table View Delegate and DataSource
+
+extension ViewController: UITableViewDelegate , UITableViewDataSource {
+
     func numberOfSections(in tableView: UITableView) -> Int {
-        
-        return TypeEnum.allCases.count
+       //return TypeEnum.allCases.count
+        return studentDetails.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return studentInfo[section].count
+        return studentDetails[section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = studentTableView.dequeueReusableCell(withIdentifier: StudentTableViewCell.identifier, for: indexPath) as! StudentTableViewCell
-
-        let name = studentInfo[indexPath.section][indexPath.row]
+        let name = studentDetails[indexPath.section][indexPath.row]
         cell.studentName.text = name.studentName
-        
         return cell
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        return CGFloat(60)
-    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         tableView.deselectRow(at: indexPath, animated: true)
-        let cell = studentTableView.cellForRow(at: indexPath) as! StudentTableViewCell
-        selectedIndex = tableView.indexPath(for: cell)
+        selectedIndex = indexPath
         
-        if let vc = storyboard?.instantiateViewController(withIdentifier: "UpdateViewController") as? UpdateViewController {
-            
-            vc.delegate = self
-            
-            let name = studentInfo[indexPath.section][indexPath.row]
-            vc.studentName = name.studentName
-            
-            self.navigationController?.pushViewController(vc, animated: true)
+        if let updateViewController = storyboard?.instantiateViewController(withIdentifier: "UpdateViewController") as? UpdateViewController {
+            updateViewController.delegate = self
+            let name = studentDetails[indexPath.section][indexPath.row]
+            updateViewController.studentName = name.studentName
+            navigationController?.pushViewController(updateViewController, animated: true)
         }
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
         let type = TypeEnum.allCases[section]
         let sectionTitle = type.rawValue
         return sectionTitle
     }
-    
 }
-

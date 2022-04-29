@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct StudentModel : Codable {
+struct StudentModel: Codable {
     
-    var studentName : String
-    let studentBranch : String
+    var branchIT: [String]
+    let branchEC: [String]
 }
 
-enum TypeEnum : String, CaseIterable {
-
-    case branchIt = "Branch-IT"
-    case branchEc = "Branch-EC"
+enum TypeEnum: String, CaseIterable {
+    
+    case branchIt = "BranchIT"
+    case branchEc = "BranchEC"
 }

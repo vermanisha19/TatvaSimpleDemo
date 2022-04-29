@@ -6,51 +6,56 @@
 //
 
 import UIKit
-protocol UpdateViewDelegates : AnyObject {
-    
-    func changeNameOfStudent(name : String)
+protocol UpdateViewDelegates: AnyObject {
+
+    func changeNameOfStudent(_ name: String)
 }
 
-class UpdateViewController: UIViewController , UITextFieldDelegate {
+class UpdateViewController:UIViewController {
 
-    @IBOutlet weak var saveBtn: UIButton!
-    @IBOutlet weak var nameTxt: UITextField!
+    @IBOutlet private weak var saveBtn: UIButton!
+    @IBOutlet private weak var nameTxt: UITextField!
     
-    weak var delegate : UpdateViewDelegates?
-    var studentName : String?
+    weak var delegate: UpdateViewDelegates?
+    var studentName: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        nameTxt.text = studentName!
+        if let studentName = studentName {
+            nameTxt.text = studentName
+        }
         nameTxt.delegate = self
-        
         setLeftPadding()
     }
    
-    func setLeftPadding() {
-    
+   private func setLeftPadding() {
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: self.nameTxt.frame.height))
         nameTxt.leftView = paddingView
         nameTxt.leftViewMode = UITextField.ViewMode.always
     }
     
-    @IBAction func saveBtnPressed(_ sender: Any) {
-        
+    @IBAction private func saveBtnPressed(_ sender: Any) {
         if nameTxt.text != "" {
-          
-            delegate?.changeNameOfStudent(name: nameTxt.text!)
+            delegate?.changeNameOfStudent(nameTxt.text!)
             navigationController?.popViewController(animated: true)
-        }
-        else {
-            nameTxt.placeholder = "Please Write Something.."
+        } else {
+            nameTxt.layer.borderColor = UIColor.red.cgColor
+            nameTxt.layer.borderWidth = 1.0
         }
     }
+}
+
+//MARK: - UITextFieldDelegate
+
+extension UpdateViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
         textField.resignFirstResponder()
         return true
     }
-
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        nameTxt.layer.borderColor = UIColor.clear.cgColor
+        nameTxt.layer.borderWidth = 1.0
+    }
 }
