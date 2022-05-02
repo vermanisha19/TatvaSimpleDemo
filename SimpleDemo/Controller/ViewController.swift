@@ -17,10 +17,15 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         studentTableView.delegate = self
         studentTableView.dataSource = self
-        
-        let studentArray = StudentViewModel.shared.studentDetails()
-        for students in studentArray {
-            studentDetails.append(students)
+        studentDetails = StudentViewModel.shared.studentDetails()
+    }
+    
+    private func showUpdateViewController(_ index: IndexPath) {
+        if let updateViewController = storyboard?.instantiateViewController(withIdentifier: "UpdateViewController") as? UpdateViewController {
+            updateViewController.delegate = self
+            let name = studentDetails[index.section].studentsName[index.row]
+            updateViewController.studentName = name
+            navigationController?.pushViewController(updateViewController, animated: true)
         }
     }
 }
@@ -42,8 +47,8 @@ extension ViewController: UpdateViewDelegates {
 extension ViewController: UITableViewDelegate , UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        //return TypeEnum.allCases.count
-        return studentDetails.count
+        return TypeEnum.allCases.count
+        //return studentDetails.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -60,14 +65,7 @@ extension ViewController: UITableViewDelegate , UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         selectedIndex = indexPath
-        
-        if let updateViewController = storyboard?.instantiateViewController(withIdentifier: "UpdateViewController") as? UpdateViewController {
-            updateViewController.delegate = self
-            let name = studentDetails[indexPath.section].studentsName[indexPath.row]
-            updateViewController.studentName = name
-            
-            navigationController?.pushViewController(updateViewController, animated: true)
-        }
+        showUpdateViewController(indexPath)
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

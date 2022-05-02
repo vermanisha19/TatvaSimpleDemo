@@ -35,8 +35,8 @@ class UpdateViewController:UIViewController {
     }
     
     @IBAction private func saveBtnPressed(_ sender: Any) {
-        if nameTxt.text != "" {
-            delegate?.changeNameOfStudent(nameTxt.text!)
+        if let name = nameTxt.text, !name.isEmpty {
+            delegate?.changeNameOfStudent(name)
             navigationController?.popViewController(animated: true)
         } else {
             nameTxt.layer.borderColor = UIColor.red.cgColor

@@ -18,7 +18,7 @@ struct StudentViewModel {
             "Mishika",
             "Abhishek",
             "Mukesh",
-            "Neha"
+            ""
         ],
         "BranchEC": [
             "Bhawana",

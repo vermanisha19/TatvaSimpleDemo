@@ -12,3 +12,9 @@ struct StudentModel: Codable {
     var studentBranch: String
     var studentsName: [String]
 }
+
+enum TypeEnum: String, CaseIterable {
+
+    case branchIT = "BranchIT"
+    case branchEC = "BranchEC"
+}
