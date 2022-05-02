@@ -17,7 +17,6 @@
 		1E2BB0CF28167E8A00699B98 /* UpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2BB0CE28167E8A00699B98 /* UpdateViewController.swift */; };
 		1E2BB0D72816CD4900699B98 /* StudentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2BB0D62816CD4900699B98 /* StudentViewModel.swift */; };
 		1E2BB0D92816CE7200699B98 /* StudentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2BB0D82816CE7200699B98 /* StudentModel.swift */; };
-		1E2BB0DD281A58FF00699B98 /* StudentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2BB0DC281A58FF00699B98 /* StudentData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +32,6 @@
 		1E2BB0CE28167E8A00699B98 /* UpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateViewController.swift; sourceTree = "<group>"; };
 		1E2BB0D62816CD4900699B98 /* StudentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentViewModel.swift; sourceTree = "<group>"; };
 		1E2BB0D82816CE7200699B98 /* StudentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentModel.swift; sourceTree = "<group>"; };
-		1E2BB0DC281A58FF00699B98 /* StudentData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,7 +115,6 @@
 			isa = PBXGroup;
 			children = (
 				1E2BB0D82816CE7200699B98 /* StudentModel.swift */,
-				1E2BB0DC281A58FF00699B98 /* StudentData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -206,7 +203,6 @@
 				1E2BB0BD2816788000699B98 /* ViewController.swift in Sources */,
 				1E2BB0B92816788000699B98 /* AppDelegate.swift in Sources */,
 				1E2BB0BB2816788000699B98 /* SceneDelegate.swift in Sources */,
-				1E2BB0DD281A58FF00699B98 /* StudentData.swift in Sources */,
 				1E2BB0CD2816791100699B98 /* StudentTableViewCell.swift in Sources */,
 				1E2BB0CF28167E8A00699B98 /* UpdateViewController.swift in Sources */,
 			);

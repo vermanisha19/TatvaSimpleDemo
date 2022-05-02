@@ -11,7 +11,7 @@ class ViewController: UIViewController {
     
     @IBOutlet private weak var studentTableView: UITableView!
     private var selectedIndex: IndexPath!
-    private var studentDetails: [[StudentData]] = []
+    private var studentDetails: [StudentModel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,9 +19,7 @@ class ViewController: UIViewController {
         studentTableView.dataSource = self
         
         let studentArray = StudentViewModel.shared.studentDetails()
-        for value in TypeEnum.allCases {
-            let students = studentArray.filter { $0.studentBranch == value.rawValue
-            }
+        for students in studentArray {
             studentDetails.append(students)
         }
     }
@@ -32,7 +30,7 @@ class ViewController: UIViewController {
 extension ViewController: UpdateViewDelegates {
     
     func changeNameOfStudent(_ name: String) {
-        studentDetails[selectedIndex.section][selectedIndex.row].studentName = name
+        studentDetails[selectedIndex.section].studentsName[selectedIndex.row] = name
         DispatchQueue.main.async {
             self.studentTableView.reloadRows(at: [self.selectedIndex], with: .none)
         }
@@ -42,20 +40,20 @@ extension ViewController: UpdateViewDelegates {
 //MARK: - Table View Delegate and DataSource
 
 extension ViewController: UITableViewDelegate , UITableViewDataSource {
-
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-       //return TypeEnum.allCases.count
+        //return TypeEnum.allCases.count
         return studentDetails.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return studentDetails[section].count
+        return studentDetails[section].studentsName.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = studentTableView.dequeueReusableCell(withIdentifier: StudentTableViewCell.identifier, for: indexPath) as! StudentTableViewCell
-        let name = studentDetails[indexPath.section][indexPath.row]
-        cell.studentName.text = name.studentName
+        let name = studentDetails[indexPath.section].studentsName[indexPath.row]
+        cell.studentName.text = name
         return cell
     }
     
@@ -65,15 +63,15 @@ extension ViewController: UITableViewDelegate , UITableViewDataSource {
         
         if let updateViewController = storyboard?.instantiateViewController(withIdentifier: "UpdateViewController") as? UpdateViewController {
             updateViewController.delegate = self
-            let name = studentDetails[indexPath.section][indexPath.row]
-            updateViewController.studentName = name.studentName
+            let name = studentDetails[indexPath.section].studentsName[indexPath.row]
+            updateViewController.studentName = name
+            
             navigationController?.pushViewController(updateViewController, animated: true)
         }
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let type = TypeEnum.allCases[section]
-        let sectionTitle = type.rawValue
+        let sectionTitle = studentDetails[section].studentBranch
         return sectionTitle
     }
 }

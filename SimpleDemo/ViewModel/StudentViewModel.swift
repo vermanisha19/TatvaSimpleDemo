@@ -10,24 +10,29 @@ import Foundation
 struct StudentViewModel {
     
     static var shared = StudentViewModel()
-    private var studentInfo: [StudentData] = []
+    private var studentInfo: [StudentModel] = []
     
     private let data = [
-        "BranchIT":
-            ["Nisha","Mishika","Abhishek","Mukesh","Neha"],
-        "BranchEC":
-            ["Bhawana","Pooja","Ashish","Ankit","Ashish"],
+        "BranchIT": [
+            "Nisha",
+            "Mishika",
+            "Abhishek",
+            "Mukesh",
+            "Neha"
+        ],
+        "BranchEC": [
+            "Bhawana",
+            "Pooja",
+            "Ashish",
+            "Ankit",
+            "Yash"
+        ],
     ]
     
-    mutating func studentDetails() -> [StudentData] {
-        for value in data.keys {
-            let student = data[value]
-            if let student = student {
-                for name in student {
-                  let studentData = StudentData(studentName: name, studentBranch: value)
-                  studentInfo.append(studentData)
-                }
-            }
+    mutating func studentDetails() -> [StudentModel] {
+        for value in data {
+            let students = StudentModel(studentBranch: value.key, studentsName:  value.value)
+            studentInfo.append(students)
         }
         return studentInfo
     }

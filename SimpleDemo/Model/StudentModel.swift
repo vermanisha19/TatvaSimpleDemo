@@ -9,12 +9,6 @@ import Foundation
 
 struct StudentModel: Codable {
     
-    var branchIT: [String]
-    let branchEC: [String]
-}
-
-enum TypeEnum: String, CaseIterable {
-    
-    case branchIt = "BranchIT"
-    case branchEc = "BranchEC"
+    var studentBranch: String
+    var studentsName: [String]
 }
